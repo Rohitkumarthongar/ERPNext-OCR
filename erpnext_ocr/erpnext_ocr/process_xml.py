@@ -1,6 +1,8 @@
+import frappe
 from AbbyyOnlineSdk import *
 
 # Recognize a file at filePath and save result to resultFilePath
+@frappe.whitelist()
 def recognizeFile(filePath, resultFilePath, language, outputFormat):
     processor = AbbyyOnlineSdk()
 

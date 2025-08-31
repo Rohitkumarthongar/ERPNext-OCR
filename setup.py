@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
-try: # for pip >= 10
-    from pip._internal.req import parse_requirements
-except ImportError: # for pip <= 9.0.3
-   from pip.req import parse_requirements
 import re, ast
 
 
@@ -14,7 +10,9 @@ with open('erpnext_ocr/__init__.py', 'rb') as f:
     version = str(ast.literal_eval(_version_re.search(
         f.read().decode('utf-8')).group(1)))
 
-requirements = parse_requirements("requirements.txt", session="")
+# Read requirements from requirements.txt
+with open('requirements.txt', 'r') as f:
+    requirements = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 setup(
 	name='erpnext_ocr',
@@ -25,7 +23,5 @@ setup(
 	packages=find_packages(),
 	zip_safe=False,
 	include_package_data=True,
-	# install_requires=[str(ir.req) for ir in requirements],
-	install_requires=[str(ir) for ir in requirements],
-	dependency_links=[str(ir._link) for ir in requirements if ir._link]
+	install_requires=requirements
 )

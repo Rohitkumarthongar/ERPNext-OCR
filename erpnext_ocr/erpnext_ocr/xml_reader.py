@@ -1,17 +1,26 @@
 import frappe
-from process_xml import recognizeFile
+from frappe import _
+try:
+    from .process_xml import recognizeFile
+except ImportError:
+    from process_xml import recognizeFile
 
+@frappe.whitelist()
 def test_get_xml():
     get_xml("aaa","Picture_010")
 
+@frappe.whitelist()
 def get_xml(docname,filename):
-    filename_img = filename+".tif"
-    file_url = frappe.get_site_path()+"/private/files/" + filename_img
+    try:
+        filename_img = filename+".tif"
+        file_url = frappe.get_site_path()+"/private/files/" + filename_img
 
-    filename_xml = filename+".xml"
-    file_url_xml = frappe.get_site_path()+"/private/files/" + filename_xml
+        filename_xml = filename+".xml"
+        file_url_xml = frappe.get_site_path()+"/private/files/" + filename_xml
 
-    recognizeFile(file_url,file_url_xml,"English","xml")
+        recognizeFile(file_url,file_url_xml,"English","xml")
+    except Exception as e:
+        frappe.throw(_("Error processing XML: {0}").format(str(e)))
 
     attachment_doc = frappe.get_doc({
         "doctype": "File",
@@ -32,11 +41,13 @@ def get_xml(docname,filename):
                             user=frappe.session.user)
 
 #bench execute erpnext_ocr.erpnext_ocr.xml_reader.force_attach_file
+@frappe.whitelist()
 def force_attach_file():
     filename = "Picture_010.tif"
     name = "aaa"
     force_attach_file_doc(filename,name)
 
+@frappe.whitelist()
 def force_attach_file_doc(filename,name):
     file = "/private/files/"
     # filename = "dimensions.xlsx"
@@ -64,12 +75,15 @@ def force_attach_file_doc(filename,name):
 
 @frappe.whitelist()
 def read(ocr_receipt):
-    import xml.etree.cElementTree as ET
+    try:
+        import xml.etree.cElementTree as ET
 
-    # source = '/home/jvfiel/frappe-bl3ndlabs/apps/erpnext_ocr/erpnext_ocr/erpnext_ocr/test.xml'
-    source = frappe.db.sql("""SELECT xml FROM `tabOCR Receipt` WHERE name=%s""", (ocr_receipt))[0][0]
-    if source == "" or not source:
-        frappe.throw("No XML. Please upload file in OCR again and save to generate.")
+        # source = '/home/jvfiel/frappe-bl3ndlabs/apps/erpnext_ocr/erpnext_ocr/erpnext_ocr/test.xml'
+        source = frappe.db.sql("""SELECT xml FROM `tabOCR Receipt` WHERE name=%s""", (ocr_receipt))[0][0]
+        if source == "" or not source:
+            frappe.throw(_("No XML. Please upload file in OCR again and save to generate."))
+    except Exception as e:
+        frappe.throw(_("Error reading OCR receipt: {0}").format(str(e)))
     tree = ET.ElementTree(file=frappe.get_site_path()+source)
     root = tree.getroot()
 

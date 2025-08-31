@@ -1,1 +1,7 @@
 frappe
+pytesseract
+Pillow
+requests
+openai
+google-generativeai
+anthropic

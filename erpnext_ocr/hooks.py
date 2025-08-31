@@ -15,10 +15,14 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/erpnext_ocr/css/Aimara.css"
-# app_include_js = "/assets/erpnext_ocr/js/Aimara.js"
-app_include_css = "/assets/erpnext_ocr/css/treeview.min.css"
-app_include_js = "/assets/erpnext_ocr/js/treeview.min.js"
+app_include_css = [
+    "/assets/erpnext_ocr/css/treeview.min.css",
+    "/assets/erpnext_ocr/css/ocr_enhancements.css"
+]
+app_include_js = [
+    "/assets/erpnext_ocr/js/treeview.min.js",
+    "/assets/erpnext_ocr/js/ocr_auto_fill.js"
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/erpnext_ocr/css/treeview.min.css"
@@ -28,7 +32,13 @@ app_include_js = "/assets/erpnext_ocr/js/treeview.min.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Sales Invoice" : "public/js/Aimara.js"}
+doctype_js = {
+    "Sales Invoice": "public/js/Aimara.js",
+    "Purchase Invoice": "public/js/ocr_auto_fill.js",
+    "Sales Order": "public/js/ocr_auto_fill.js",
+    "Purchase Order": "public/js/ocr_auto_fill.js",
+    "Quotation": "public/js/ocr_auto_fill.js"
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -123,5 +133,9 @@ doc_events = {
 # 	"frappe.desk.doctype.event.event.get_events": "erpnext_ocr.event.get_events"
 # }
 
-# fixtures = ['Custom Script','Custom Field','Property Setter']
-fixtures = ['Custom Script']
+fixtures = [
+    {
+        "doctype": "AI Integration Settings",
+        "filters": [["name", "in", ["Default OpenAI Settings"]]]
+    }
+]

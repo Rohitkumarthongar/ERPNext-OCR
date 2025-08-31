@@ -1,0 +1,22 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "AI Integration Settings",
+  "name": "Default OpenAI Settings",
+  "title": "Default OpenAI Settings",
+  "ai_provider": "OpenAI",
+  "model_name": "gpt-4-vision-preview",
+  "max_tokens": 4000,
+  "temperature": 0.1,
+  "timeout": 30,
+  "enable_ai_ocr": 1,
+  "enable_document_classification": 1,
+  "enable_field_extraction": 1,
+  "supported_formats": "jpg,jpeg,png,pdf,tiff,bmp",
+  "max_file_size": 10,
+  "ocr_prompt": "Extract all text from this image. Return the result as clean, structured text maintaining the original layout and formatting where possible.",
+  "classification_prompt": "Analyze this document image and classify it. Return a JSON object with: {\"document_type\": \"type\", \"confidence\": 0.95, \"suggested_doctype\": \"ERPNext DocType\", \"key_fields\": [\"field1\", \"field2\"]}",
+  "extraction_prompt": "Extract structured data from this document. Return a JSON object with all identifiable fields and their values. Include dates, amounts, names, addresses, and any other relevant information. Use these field names when possible: customer_name, supplier_name, date, due_date, total, tax, description, address, phone, email, reference, items (as array).",
+  "is_active": 1
+ }
+]
